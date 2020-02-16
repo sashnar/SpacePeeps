@@ -1,0 +1,23 @@
+import requests
+import json
+
+customerId = 'Sasha'
+apiKey = 'cb65471378a01fc922eeb8ed364c6ec4'
+
+url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(customerId,apiKey)
+
+payload = {
+    "_id": "string",
+    "type": "Credit Card",
+    "nickname": "string",
+    "rewards": 0,
+    "balance": 0,
+    "account_number": "string",
+    "customer_id": "string"
+  }
+
+response = requests.get("5e4866a6322fa016762f38fc")
+
+if response.status_code == 201:
+	print('account grabbed')
+    print(response)
