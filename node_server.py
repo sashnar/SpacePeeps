@@ -13,7 +13,7 @@ class Block:
         self.timestamp = timestamp
         self.previous_hash = previous_hash
         self.nonce = nonce
-        self.percent_dict = {}
+        self.bill_fields = bill_fields
         
 
     def compute_hash(self):
@@ -22,17 +22,10 @@ class Block:
         """
         block_string = json.dumps(self.__dict__, sort_keys=True)
         return sha256(block_string.encode()).hexdigest()
-    
-    def set_percentages(self, percent_dict)
-        self.percentages = percent_dict
+        
+    # def get_bill_fields(self)
+    #     return bill_fields
 
-    def get_percentages(self)
-        return percent_dict
-
-    def check_percentages(self)
-        if (math.sum(percent_dict.values()) != 1.0)
-            for x in range(0, len(percent_dict.values()))
-                percent_dict
         
         
 
@@ -141,7 +134,8 @@ class Blockchain:
         new_block = Block(index=last_block.index + 1,
                           transactions=self.unconfirmed_transactions,
                           timestamp=time.time(),
-                          previous_hash=last_block.hash)
+                          previous_hash=last_block.hash,
+                          )
 
         proof = self.proof_of_work(new_block)
         self.add_block(new_block, proof)
@@ -166,14 +160,14 @@ peers = set()
 @app.route('/new_transaction', methods=['POST'])
 def new_transaction():
     tx_data = request.get_json()
-    required_fields = ["author", "content"]
+    required_fields = ["total_money","nickname","accId","user_percent"]
 
     for field in required_fields:
         if not tx_data.get(field):
             return "Invalid transaction data", 404
 
-    tx_data["timestamp"] = time.time()
-
+    # tx_data["timestamp"] = time.time()
+    
     blockchain.add_new_transaction(tx_data)
 
     return "Success", 201
@@ -339,5 +333,4 @@ def announce_new_block(block):
                       data=json.dumps(block.__dict__, sort_keys=True),
                       headers=headers)
 
-# Uncomment this line if you want to specify the port number in the code
-#app.run(debug=True, port=8000)
+
